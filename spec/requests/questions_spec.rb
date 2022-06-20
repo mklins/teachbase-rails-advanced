@@ -20,10 +20,17 @@ RSpec.describe "Questions", type: :request do
   end
 
   describe 'GET /show' do
+    let!(:answers) { create_list(:answer, 2, question_id: question.id) }
+    let!(:answer) { create(:answer) }
+
     before { get question_url(question) }
 
     it 'assigns the requested question to @question' do
-      expect(assigns(:question)).to eq question
+      expect(assigns(:question)).to eq(question)
+    end
+
+    it 'loads answers to the requested question' do
+      expect(assigns(:answers)).to match_array(answers)
     end
 
     it 'renders show view' do
