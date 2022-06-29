@@ -5,10 +5,11 @@ feature 'User sign out', %q{
   As an user
   I want to able to sign out
 } do
+
+  given(:user) { create(:user) }
   
   scenario 'User try to sign out' do
-    @user = create(:user)
-    sign_in @user
+    log_in(user)
 
     visit destroy_user_session_path
 
