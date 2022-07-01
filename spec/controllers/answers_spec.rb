@@ -5,34 +5,6 @@ RSpec.describe AnswersController, type: :controller do
   let(:answer) { create(:answer, question: question, body: 'MyText') }
   let(:another_q_answers) { create_list(:answer, 2) }
 
-  describe 'GET /show' do
-    before { get :show, params: {id: answer, question_id: question.id} }
-
-    it 'assigns the requested answer to @answer of the right question' do
-      expect(assigns(:answer)).to eq(answer)
-      expect(answer.question_id).to eq(question.id)
-    end
-
-    it 'renders show view' do
-      expect(response).to render_template :show
-    end
-  end
-
-  describe 'GET /new' do
-    sign_in_user
-
-    before { get :new, params: {question_id: question.id} }
-
-    it 'assigns a new answer to @answer of @question' do
-      expect(assigns(:answer)).to be_a_new(Answer)
-      expect(answer.question_id).to eq(question.id)
-    end
-
-    it 'renders new view' do
-      expect(response).to render_template :new
-    end
-  end
-
   describe 'POST /create' do
     sign_in_user
 
@@ -41,9 +13,9 @@ RSpec.describe AnswersController, type: :controller do
         expect { post :create, params: { question_id: question.id, answer: attributes_for(:answer) } }.to change(question.answers, :count).by(1)
       end
 
-      it 'redirects to new view' do
+      it 'redirects to question show view' do
         post :create, params: { question_id: question.id, answer: attributes_for(:answer) }
-        expect(response).to redirect_to question_path(assigns(:question))
+        expect(response).to redirect_to question_path(question)
       end
     end
 
@@ -52,9 +24,9 @@ RSpec.describe AnswersController, type: :controller do
         expect { post :create, params: { question_id: question.id, answer: attributes_for(:invalid_answer) } }.to_not change(question.answers, :count)
       end
 
-      it 're-renders new view' do
+      it 'redirects to question show view' do
         post :create, params: { question_id: question.id, answer: attributes_for(:invalid_answer) }
-        expect(response).to render_template :new
+        expect(response).to redirect_to question_path(question)
       end
     end
   end

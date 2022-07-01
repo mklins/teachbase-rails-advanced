@@ -31,23 +31,4 @@ feature 'Show question with answers', %q{
     expect(page).to have_content(question.answers.second.body)
   end
 
-  scenario 'Authenticated user tries to create new answer to the question' do
-    log_in(user)
-
-    visit question_path(question)
-    fill_in 'Body', with: 'Test answer'
-    click_on 'Submit answer!'
-
-    expect(page).to have_content 'Your answer was successfully created.'
-    expect(question.answers.last.body).to eq('Test answer')
-  end
-
-  scenario 'Non-authenticated user tries to create new answer to the question' do
-    visit question_path(question)
-    fill_in 'Body', with: 'Test answer'
-    click_on 'Submit answer!'
-
-    expect(page).to have_content 'You need to sign in or sign up before continuing.'
-  end
-
 end
