@@ -5,8 +5,8 @@ class AnswersController < ApplicationController
 
   def create
     @answer = @question.answers.create(answer_params)
+    @answers = @question.answers
     flash[:notice] = 'Your answer was successfully created.'
-    redirect_to question_path(@question)
   end
 
   def edit; end
