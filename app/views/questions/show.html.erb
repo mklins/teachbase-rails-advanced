@@ -6,15 +6,12 @@
 
 <h2>Answers:</h2>
 
-<% @answers.each do |answer| %>
-  <time datetime="<%= answer.created_at %>">
-    <%= answer.created_at %>
-  </time>
-  <p><%= answer.body %></p>
-<% end %>
+<div class="answers">
+  <%= render 'answers' %>
+</div>
 
-<%= form_with model: [ @question, @answer ] do |f| %>
-  <%= f.label :body %>
+<%= form_for [ @question, @answer ], remote: true do |f| %>
+  <%= f.label :body, 'Your answer' %>
   <%= f.text_area :body%>
   <%= f.submit "Submit answer!"%>
 <% end %>

@@ -1,0 +1,6 @@
+<% @answers.each do |answer| %>
+  <time datetime="<%= answer.created_at %>">
+    <%= answer.created_at %>
+  </time>
+  <p><%= answer.body %></p>
+<% end %>
